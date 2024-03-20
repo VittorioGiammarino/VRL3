@@ -11,6 +11,7 @@ dmc_benchmarks.py
 check_sweep.py
 cancel_sweep.py
 data/
+vrl3data/
 
 
 # Byte-compiled / optimized / DLL files

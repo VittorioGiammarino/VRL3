@@ -30,7 +30,9 @@ class VideoRecorder:
                                            width=self.render_size,
                                            camera_id=0)
             else:
-                frame = env.render()
+                frame = env.get_pixels_with_width_height(self.render_size, self.render_size)
+                frame = frame.transpose((1, 2, 0))
+
             self.frames.append(frame)
 
     def save(self, file_name):

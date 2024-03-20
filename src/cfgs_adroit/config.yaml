@@ -35,7 +35,7 @@ save_video: false
 save_train_video: false
 use_tb: false
 save_models: false
-local_data_dir: '/vrl3data'
+local_data_dir: '/home/vittoriogiammarino/Documents/code/VRL3/src/vrl3data/'
 show_computation_time_est: true # provide estimates on computation times
 show_time_est_interval: 2500
 # experiment
@@ -110,7 +110,7 @@ agent:
 
 hydra:
   run: # this "dir" decides where the training logs are stored
-    dir: /vrl3data/logs/exp_local/${now:%Y.%m.%d}/${now:%H%M%S}_${hydra.job.override_dirname}
+    dir: ./vrl3data/logs/exp_local/${now:%Y.%m.%d}/${now:%H%M%S}_${hydra.job.override_dirname}
   sweep:
     dir: ./exp/${now:%Y.%m.%d}/${now:%H%M}_${agent_cfg.experiment}
     subdir: ${hydra.job.num}

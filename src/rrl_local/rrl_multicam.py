@@ -122,6 +122,7 @@ class BasicAdroitEnv(gym.Env): # , ABC
             else:
                 img = (np.random.rand(1, 84, 84) * 255).astype(np.uint8)
                 imgs.append(img)
+                
             pixels = np.concatenate(imgs, axis=0)
 
         # TODO below are what we originally had... 
@@ -148,6 +149,7 @@ class BasicAdroitEnv(gym.Env): # , ABC
 
     def get_env_infos(self):
         return self._env.get_env_infos()
+    
     def set_seed(self, seed):
         return self._env.set_seed(seed)
 

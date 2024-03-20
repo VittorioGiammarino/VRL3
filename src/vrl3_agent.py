@@ -294,6 +294,7 @@ class VRL3Agent:
                  stage2_update_encoder, cql_weight, cql_temp, cql_n_random, stage2_std, stage2_bc_weight,
                  stage3_update_encoder, std0, std1, std_n_decay,
                  stage3_bc_lam0, stage3_bc_lam1):
+        
         self.device = device
         self.critic_target_tau = critic_target_tau
         self.update_every_steps = update_every_steps

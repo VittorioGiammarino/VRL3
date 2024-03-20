@@ -3,9 +3,9 @@
 
 import os, psutil
 # make sure mujoco and nvidia will be found
-os.environ['LD_LIBRARY_PATH'] = os.environ.get('LD_LIBRARY_PATH', '') + \
-                                ':/workspace/.mujoco/mujoco210/bin:/usr/local/nvidia/lib:/usr/lib/nvidia'
-os.environ['MUJOCO_PY_MUJOCO_PATH'] = '/workspace/.mujoco/mujoco210/'
+# os.environ['LD_LIBRARY_PATH'] = os.environ.get('LD_LIBRARY_PATH', '') + \
+#                                 ':/workspace/.mujoco/mujoco210/bin:/usr/local/nvidia/lib:/usr/lib/nvidia'
+# os.environ['MUJOCO_PY_MUJOCO_PATH'] = '/workspace/.mujoco/mujoco210/'
 import numpy as np
 import shutil
 import warnings
@@ -135,11 +135,13 @@ class Workspace:
                 self.cfg.agent.encoder_lr_scale = 1
 
         self.env_feature_type = self.cfg.env_feature_type
+        
         if env_type == 'adroit':
             # reward rescale can either be added in the env or in the agent code when reward is used
             self.train_env = AdroitEnv(env_name, test_image=False, num_repeats=self.cfg.action_repeat,
                     num_frames=self.cfg.frame_stack, env_feature_type=self.env_feature_type,
                                        device=self.device, reward_rescale=self.cfg.reward_rescale)
+            
             self.eval_env = AdroitEnv(env_name, test_image=False, num_repeats=self.cfg.action_repeat,
                     num_frames=self.cfg.frame_stack, env_feature_type=self.env_feature_type,
                                       device=self.device, reward_rescale=self.cfg.reward_rescale)
@@ -165,8 +167,6 @@ class Workspace:
 
         # create replay buffer
         self.replay_storage = ReplayBufferStorage(data_specs, self.work_dir / 'buffer')
-
-
 
         self.replay_loader = make_replay_loader(
             self.work_dir / 'buffer', self.cfg.replay_buffer_size,
@@ -279,11 +279,8 @@ class Workspace:
         return episode_reward_standard, success_rate_standard
 
     def get_data_folder_path(self):
-        amlt_data_path = os.getenv('AMLT_DATA_DIR', '')
-        if amlt_data_path != '':  # if on cluster
-            return amlt_data_path
-        else: # if not on cluster, return the data folder path specified in cfg
-            return self.cfg.local_data_dir
+        pretrained_encoder_path = self.work_dir.parents[3]
+        return str(pretrained_encoder_path)
 
     def get_demo_path(self, env_name):
         # given a environment name (with the -v0 part), return the path to its demo file

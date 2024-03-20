@@ -377,6 +377,10 @@ class AdroitEnv:
 
     def set_env_state(self, state):
         self._env.set_env_state(state)
+
+    def render(self):
+        return self._env.render()
+        
     # def __getattr__(self, name):
     #     return getattr(self, name)
 
