@@ -586,14 +586,14 @@ class VRL3Agent:
         """
         add BC loss
         """
-        if bc_weight > 0:
-            # get mean action with no action noise (though this might not be necessary)
-            stddev_bc = 0
-            dist_bc = self.actor(obs, stddev_bc)
-            current_mean_action = dist_bc.sample(clip=self.stddev_clip)
-            actor_loss_bc = F.mse_loss(current_mean_action, action) * bc_weight
-        else:
-            actor_loss_bc = torch.FloatTensor([0]).to(self.device)
+        # if bc_weight > 0:
+        #     # get mean action with no action noise (though this might not be necessary)
+        #     stddev_bc = 0
+        #     dist_bc = self.actor(obs, stddev_bc)
+        #     current_mean_action = dist_bc.sample(clip=self.stddev_clip)
+        #     actor_loss_bc = F.mse_loss(current_mean_action, action) * bc_weight
+        # else:
+        #     actor_loss_bc = torch.FloatTensor([0]).to(self.device)
 
         """
         add pretanh penalty (might not be necessary for Adroit)
@@ -607,14 +607,14 @@ class VRL3Agent:
         """
         combine actor losses and optimize
         """
-        actor_loss_combined = actor_loss + actor_loss_bc + pretanh_loss
+        actor_loss_combined = actor_loss + pretanh_loss
 
         self.actor_opt.zero_grad(set_to_none=True)
         actor_loss_combined.backward()
         self.actor_opt.step()
 
         metrics['actor_loss'] = actor_loss.item()
-        metrics['actor_loss_bc'] = actor_loss_bc.item()
+        # metrics['actor_loss_bc'] = actor_loss_bc.item()
         metrics['actor_logprob'] = log_prob.mean().item()
         metrics['actor_ent'] = dist.entropy().sum(dim=-1).mean().item()
         metrics['abs_pretanh'] = pretanh.abs().mean().item()
