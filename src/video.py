@@ -33,7 +33,7 @@ class VideoRecorder:
                 frame = env.get_pixels_with_width_height(self.render_size, self.render_size)
                 frame = frame.transpose((1, 2, 0))
 
-            self.frames.append(frame)
+            self.frames.append(frame[:,:,:3])
 
     def save(self, file_name):
         if self.enabled:
