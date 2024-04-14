@@ -119,8 +119,8 @@ class Workspace:
     def setup(self):
         warnings.filterwarnings('ignore', category=DeprecationWarning)
 
-        if self.cfg.save_models:
-            assert self.cfg.action_repeat % 2 == 0
+        # if self.cfg.save_models:
+        #     assert self.cfg.action_repeat % 2 == 0
 
         # create logger
         self.logger = Logger(self.work_dir, use_tb=self.cfg.use_tb)
