@@ -427,7 +427,6 @@ class VRL3Agent:
         metrics = dict()
 
         if stage == 2:
-            print("begin stage 2")
             update_encoder = self.stage2_update_encoder
             stddev = self.stage2_std
             conservative_loss_weight = self.cql_weight
@@ -447,7 +446,6 @@ class VRL3Agent:
             bc_weight = self.stage3_bc_lam0 * self.stage3_bc_lam1 ** i_iter
 
         # batch data
-        print("sample data")
         batch = next(replay_iter)
         if use_sensor: # TODO might want to...?
             obs, action, reward, discount, next_obs, obs_sensor, obs_sensor_next = utils.to_torch(batch, self.device)
@@ -456,7 +454,6 @@ class VRL3Agent:
             obs_sensor, obs_sensor_next = None, None
 
         # augment
-        print("augment")
         if self.use_data_aug:
             obs = self.aug(obs.float())
             next_obs = self.aug(next_obs.float())
@@ -465,7 +462,6 @@ class VRL3Agent:
             next_obs = next_obs.float()
 
         # encode
-        print("encode")
         if update_encoder:
             obs = self.encoder(obs)
         else:
@@ -480,19 +476,16 @@ class VRL3Agent:
         obs_next_combined = torch.cat([next_obs, obs_sensor_next], dim=1) if obs_sensor_next is not None else next_obs
 
         # update critic
-        print("update critic")
         metrics.update(self.update_critic_vrl3(obs_combined, action, reward, discount, obs_next_combined,
                                                stddev, update_encoder, conservative_loss_weight))
 
         # update actor, following previous works, we do not use actor gradient for encoder update
-        print("update actor")
         metrics.update(self.update_actor_vrl3(obs_combined.detach(), action, stddev, bc_weight,
                                               self.pretanh_penalty, self.pretanh_threshold))
 
         metrics['batch_reward'] = reward.mean().item()
 
         # update critic target networks
-        print("update critic target")
         utils.soft_update_params(self.critic, self.critic_target, self.critic_target_tau)
         return metrics
 

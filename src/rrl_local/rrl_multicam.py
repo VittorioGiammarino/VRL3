@@ -94,7 +94,8 @@ class BasicAdroitEnv(gym.Env): # , ABC
 
         if self.encoder is not None:
             for cam in self.cameras :
-                img = self._env.env.sim.render(width=self.width, height=self.height, mode='offscreen', camera_name=cam, device_id=0)
+                #img = self._env.env.sim.render(width=self.width, height=self.height, mode='offscreen', camera_name=cam, device_id=0)
+                img = self._env.env.sim.render(width=self.width, height=self.height, mode='offscreen', camera_name=cam)
                 # img = env.env.sim.render(width=84, height=84, mode='offscreen')
                 img = img[::-1, :, : ] # Image given has to be flipped
                 if self.channels_first :

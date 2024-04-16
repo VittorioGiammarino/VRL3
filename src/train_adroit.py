@@ -15,7 +15,7 @@ import platform
 os.environ['MUJOCO_GL'] = 'egl'
 # set to glfw if trying to render locally with a monitor
 # os.environ['MUJOCO_GL'] = 'glfw'
-os.environ['EGL_DEVICE_ID'] = '0'
+# os.environ['EGL_DEVICE_ID'] = '0'
 from distutils.dir_util import copy_tree
 import torchvision.transforms as transforms
 from pathlib import Path
