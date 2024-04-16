@@ -205,6 +205,7 @@ def make(name, frame_stack, action_repeat, seed):
         env = pixels.Wrapper(env,
                              pixels_only=True,
                              render_kwargs=render_kwargs)
+        
     # stack several frames
     env = FrameStackWrapper(env, frame_stack, pixels_key)
     env = ExtendedTimeStepWrapper(env)

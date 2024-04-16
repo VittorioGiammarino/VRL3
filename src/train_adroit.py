@@ -94,6 +94,7 @@ class Workspace:
         self.agent = make_agent(self.train_env.observation_spec(),
                                 self.train_env.action_spec(),
                                 self.cfg.agent)
+        
         self.timer = utils.Timer()
         self._global_step = 0
         self._global_episode = 0
